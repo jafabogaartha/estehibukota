@@ -6,12 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mobile Image Web</title>
 
-    <!-- DNS prefetch dan preconnect untuk optimasi jaringan -->
-    <link rel="dns-prefetch" href="//assets">
-    <link rel="preconnect" href="/assets" crossorigin>
-
     <!-- Preload gambar pertama untuk loading prioritas -->
-    <link rel="preload" as="image" href="assets/1.jpg">
+    <link rel="preload" as="image" href="assets/final/Landing Page Es Teh Ibukota CMYK 1_4_11zon.jpg">
 
     <style>
         * {
@@ -23,89 +19,56 @@
         body {
             background: #fff;
             overflow-x: hidden;
+            /* Mencegah selection dan drag pada seluruh halaman */
             user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
-            /* Optimasi untuk rendering yang lebih smooth */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         .image-stack {
             width: 100%;
             margin: 0 auto;
             background: #000;
-            /* Optimasi untuk container gambar */
-            contain: layout style paint;
         }
 
         .image-stack img {
             width: 100%;
             height: auto;
             display: block;
+            /* Mencegah drag pada gambar */
             -webkit-user-drag: none;
             -khtml-user-drag: none;
             -moz-user-drag: none;
             -o-user-drag: none;
             user-drag: none;
+            /* Mencegah selection pada gambar */
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            /* Mencegah context menu */
             pointer-events: none;
-            
-            /* Optimasi rendering gambar */
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-            
-            /* Optimasi GPU acceleration */
-            transform: translateZ(0);
-            will-change: opacity, transform;
-            
-            /* Transition yang lebih smooth */
-            opacity: 0;
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            
-            /* Optimasi memory */
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
         }
 
-        .image-stack img.loaded {
-            opacity: 1;
-        }
-
-        .image-stack img.loading {
-            opacity: 0.3;
-            filter: blur(2px);
-            transition: all 0.3s ease;
-        }
-
-        /* Skeleton loader yang lebih baik */
+        /* Loading placeholder untuk gambar yang belum dimuat */
         .image-placeholder {
-            background: linear-gradient(90deg, 
-                rgba(240, 240, 240, 0.8) 25%, 
-                rgba(220, 220, 220, 0.8) 50%, 
-                rgba(240, 240, 240, 0.8) 75%
-            );
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
             background-size: 200% 100%;
-            animation: shimmer 1.8s infinite ease-in-out;
+            animation: loading 1.5s infinite;
             min-height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            font-size: 14px;
-            position: relative;
-            overflow: hidden;
+            color: #666;
+            font-family: Arial, sans-serif;
         }
 
-        @keyframes shimmer {
+        @keyframes loading {
             0% {
                 background-position: 200% 0;
             }
+
             100% {
                 background-position: -200% 0;
             }
@@ -115,12 +78,7 @@
             scroll-behavior: smooth;
         }
 
-        /* Optimasi untuk scroll performance */
-        .image-stack {
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-        }
-
+        /* Mencegah drag and drop secara global */
         * {
             -webkit-user-drag: none;
             -khtml-user-drag: none;
@@ -146,7 +104,7 @@
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             z-index: 1000;
             backdrop-filter: blur(10px);
             display: flex;
@@ -154,7 +112,6 @@
             justify-content: center;
             gap: 8px;
             height: 48px;
-            will-change: transform, box-shadow;
         }
 
         .floating-button:hover {
@@ -194,18 +151,19 @@
             width: calc(100% - 40px);
             max-width: 400px;
             position: relative;
-            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideUp 0.3s ease;
             transform: translateY(-50%);
         }
 
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(50px) scale(0.9);
+                transform: translateY(50px);
             }
+
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
         }
 
@@ -246,7 +204,7 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             width: 100%;
             display: flex;
             align-items: center;
@@ -258,18 +216,6 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
             background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
-        }
-
-        /* Loading indicator */
-        .loading-indicator {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, #e74c3c, #f39c12, #2ecc71);
-            z-index: 9999;
-            transition: width 0.3s ease;
         }
 
         /* Media query untuk desktop */
@@ -299,49 +245,49 @@
             }
         }
 
-        /* Optimasi untuk perangkat dengan koneksi lambat */
-        @media (max-width: 480px) and (max-height: 800px) {
-            .image-stack img {
-                transform: translateZ(0) scale(1);
-                image-rendering: auto;
-            }
+        /* Hide images initially for progressive loading */
+        .image-stack img {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
         }
 
-        /* Preload hint untuk browser */
-        .image-stack img[data-preload="true"] {
-            content-visibility: auto;
-            contain-intrinsic-size: 390px 600px;
+        .image-stack img.loaded {
+            opacity: 1;
         }
     </style>
 </head>
 
 <body>
-    <!-- Loading indicator -->
-    <div class="loading-indicator" id="loadingIndicator"></div>
 
     <div class="image-stack">
-        <!-- Gambar dengan optimasi loading bertahap -->
-        <img id="img1" src="assets/1.jpg" alt="Gambar 1" fetchpriority="high" data-preload="true">
-        <img id="img2" src="assets/2.jpg" alt="Gambar 2" loading="lazy" data-priority="2">
-        <img id="img3" src="assets/3.jpg" alt="Gambar 3" loading="lazy" data-priority="3">
-        <img id="img4" src="assets/4.jpg" alt="Gambar 4" loading="lazy" data-priority="4">
-        <img id="img5" src="assets/5.jpg" alt="Gambar 5" loading="lazy" data-priority="5">
-        <img id="img6" src="assets/6.gif" alt="Gambar 6" loading="lazy" data-priority="6">
-        <img id="img7" src="assets/7.jpg" alt="Gambar 7" loading="lazy" data-priority="7">
-        <img id="img8" src="assets/8.gif" alt="Gambar 8" loading="lazy" data-priority="8">
-        <img id="img9" src="assets/9.jpg" alt="Gambar 9" loading="lazy" data-priority="9">
-        <img id="img10" src="assets/10.jpg" alt="Gambar 10" loading="lazy" data-priority="10">
-        <img id="img11" src="assets/11.jpg" alt="Gambar 11" loading="lazy" data-priority="11">
-        <img id="img12" src="assets/12.jpg" alt="Gambar 12" loading="lazy" data-priority="12">
-        <img id="img13" src="assets/13.jpg" alt="Gambar 13" loading="lazy" data-priority="13">
-        <img id="img14" src="assets/14.jpg" alt="Gambar 14" loading="lazy" data-priority="14">
-        <img id="img15" src="assets/15.jpg" alt="Gambar 15" loading="lazy" data-priority="15">
+        <!-- Gambar pertama dengan prioritas tinggi (tidak lazy loading) -->
+        <!-- Gambar pertama dengan prioritas tinggi (tidak lazy loading) -->
+        <!-- Gambar pertama dengan prioritas tinggi (tidak lazy loading) -->
+<img id="img1" src="assets/1.jpg" alt="Gambar 1" fetchpriority="high">
+
+<!-- Gambar 2 - 15 dengan lazy loading -->
+<img id="img2" src="assets/2.jpg" alt="Gambar 2" loading="lazy">
+<img id="img3" src="assets/3.jpg" alt="Gambar 3" loading="lazy">
+<img id="img4" src="assets/4.jpg" alt="Gambar 4" loading="lazy">
+<img id="img5" src="assets/5.jpg" alt="Gambar 5" loading="lazy">
+<img id="img6" src="assets/6.gif" alt="Gambar 6" loading="lazy">
+<img id="img7" src="assets/7.jpg" alt="Gambar 7" loading="lazy">
+<img id="img8" src="assets/8.gif" alt="Gambar 8" loading="lazy">
+<img id="img9" src="assets/9.jpg" alt="Gambar 9" loading="lazy">
+<img id="img10" src="assets/10.jpg" alt="Gambar 10" loading="lazy">
+<img id="img11" src="assets/11.jpg" alt="Gambar 11" loading="lazy">
+<img id="img12" src="assets/12.jpg" alt="Gambar 12" loading="lazy">
+<img id="img13" src="assets/13.jpg" alt="Gambar 13" loading="lazy">
+<img id="img14" src="assets/14.jpg" alt="Gambar 14" loading="lazy">
+<img id="img15" src="assets/15.jpg" alt="Gambar 15" loading="lazy">
+
     </div>
 
     <!-- Floating Button -->
     <button class="floating-button" id="openModal">
         <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.484 3.488"/>
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.484 3.488" />
         </svg>
         Pesan Sekarang
     </button>
@@ -351,11 +297,13 @@
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
             <h2>🍹 Es Teh Ibukota</h2>
-            <p>Nikmati kesegaran Es Teh Ibukota yang legendaris! Terbuat dari teh pilihan dengan rasa yang tak terlupakan.</p>
+            <p>Nikmati kesegaran Es Teh Ibukota yang legendaris! Terbuat dari teh pilihan dengan rasa yang tak
+                terlupakan.</p>
             <p><strong>Hubungi kami untuk pemesanan:</strong></p>
             <button class="modal-button" id="contactButton">
                 <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.484 3.488"/>
+                    <path
+                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.484 3.488" />
                 </svg>
                 Hubungi WhatsApp
             </button>
@@ -363,251 +311,157 @@
     </div>
 
     <script>
-        // Optimasi loading gambar dengan manajemen memory yang lebih baik
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            // Variabel untuk tracking loading
-            let loadedImages = 0;
-            const totalImages = document.querySelectorAll('img').length;
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            
-            // Performance monitoring
-            const performanceTracker = {
-                startTime: performance.now(),
-                loadTimes: [],
-                memoryUsage: []
-            };
+        // Progressive image loading dengan prioritas
+        document.addEventListener('DOMContentLoaded', function () {
 
-            // Update loading progress
-            function updateLoadingProgress() {
-                const progress = (loadedImages / totalImages) * 100;
-                loadingIndicator.style.width = progress + '%';
-                
-                if (progress === 100) {
-                    setTimeout(() => {
-                        loadingIndicator.style.opacity = '0';
-                        setTimeout(() => {
-                            loadingIndicator.style.display = 'none';
-                        }, 300);
-                    }, 500);
-                }
-            }
-
-            // Optimasi loading gambar dengan debounce dan throttle
-            function createOptimizedImageLoader() {
-                const imageObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const img = entry.target;
-                            loadImageOptimized(img);
-                            imageObserver.unobserve(img);
-                        }
-                    });
-                }, {
-                    rootMargin: '100px 0px', // Mulai load lebih awal
-                    threshold: 0.01
-                });
-
-                return imageObserver;
-            }
-
-            // Fungsi loading gambar yang dioptimasi
-            function loadImageOptimized(img) {
-                // Jika gambar sudah loaded, skip
-                if (img.classList.contains('loaded')) {
-                    return;
-                }
-
-                const startTime = performance.now();
-                
-                // Tambahkan class loading
-                img.classList.add('loading');
-
-                // Buat preloader untuk mengecek ukuran gambar
-                const tempImg = new Image();
-                
-                tempImg.onload = function() {
-                    const loadTime = performance.now() - startTime;
-                    performanceTracker.loadTimes.push(loadTime);
-                    
-                    // Optimasi berdasarkan ukuran gambar
-                    const imageSize = this.naturalWidth * this.naturalHeight;
-                    
-                    if (imageSize > 1920 * 1080) {
-                        // Gambar besar - gunakan progressive loading
-                        img.style.filter = 'blur(5px)';
-                        img.classList.remove('loading');
-                        img.classList.add('loaded');
-                        
-                        // Hapus blur setelah fully loaded
-                        setTimeout(() => {
-                            img.style.filter = 'none';
-                        }, 100);
-                    } else {
-                        // Gambar kecil - loading normal
-                        img.classList.remove('loading');
-                        img.classList.add('loaded');
-                    }
-                    
-                    loadedImages++;
-                    updateLoadingProgress();
-                    
-                    // Memory management
-                    requestIdleCallback(() => {
-                        if ('performance' in window && 'memory' in performance) {
-                            performanceTracker.memoryUsage.push(performance.memory.usedJSHeapSize);
-                        }
-                    });
-                };
-
-                tempImg.onerror = function() {
-                    console.warn('Gagal memuat gambar:', img.src);
-                    img.classList.remove('loading');
-                    img.style.opacity = '0.5';
-                    img.style.backgroundColor = '#f0f0f0';
-                    loadedImages++;
-                    updateLoadingProgress();
-                };
-
-                tempImg.src = img.src;
-            }
-
-            // Inisialisasi loading sistem
-            function initializeImageLoading() {
+            // Fungsi untuk handle loading gambar dengan prioritas
+            function loadImagesProgressively() {
                 const images = document.querySelectorAll('img');
-                const imageObserver = createOptimizedImageLoader();
 
                 // Load gambar pertama dengan prioritas tinggi
                 const firstImage = document.getElementById('img1');
                 if (firstImage) {
-                    loadImageOptimized(firstImage);
-                    
-                    // Preload 2-3 gambar berikutnya
-                    const priorityImages = ['img2', 'img3'];
-                    priorityImages.forEach((id, index) => {
-                        setTimeout(() => {
-                            const img = document.getElementById(id);
-                            if (img) {
-                                loadImageOptimized(img);
-                            }
-                        }, (index + 1) * 200);
-                    });
+                    firstImage.onload = function () {
+                        this.classList.add('loaded');
+                        // Setelah gambar pertama load, preload gambar kedua
+                        preloadNextImage('img2');
+                    };
+
+                    // Jika gambar pertama sudah cached, langsung tampilkan
+                    if (firstImage.complete) {
+                        firstImage.classList.add('loaded');
+                        preloadNextImage('img2');
+                    }
                 }
 
-                // Setup observer untuk gambar lazy load
+                // Setup loading untuk semua gambar
                 images.forEach((img, index) => {
-                    if (index > 2) { // Skip 3 gambar pertama yang sudah di-preload
-                        imageObserver.observe(img);
+                    img.onload = function () {
+                        this.classList.add('loaded');
+                    };
+
+                    // Jika gambar sudah cached
+                    if (img.complete) {
+                        img.classList.add('loaded');
                     }
                 });
+            }
 
-                // Optimasi berdasarkan connection type
-                if ('connection' in navigator) {
-                    const connection = navigator.connection;
-                    
-                    if (connection.effectiveType === '2g' || connection.effectiveType === 'slow-2g') {
-                        // Koneksi lambat - delay loading
-                        images.forEach((img, index) => {
-                            if (index > 0) {
-                                img.style.transitionDelay = `${index * 0.3}s`;
-                            }
-                        });
-                    }
+            // Fungsi untuk preload gambar berikutnya
+            function preloadNextImage(imgId) {
+                const img = document.getElementById(imgId);
+                if (img && !img.classList.contains('loaded')) {
+                    const preloader = new Image();
+                    preloader.onload = function () {
+                        img.classList.add('loaded');
+                    };
+                    preloader.src = img.src;
                 }
             }
 
-            // Performance optimization dengan requestIdleCallback
-            function optimizePerformance() {
-                if ('requestIdleCallback' in window) {
-                    requestIdleCallback(() => {
-                        // Cleanup unused resources
-                        const loadedImages = document.querySelectorAll('img.loaded');
-                        loadedImages.forEach(img => {
-                            if (img.offsetTop + img.offsetHeight < window.scrollY - window.innerHeight) {
-                                // Gambar sudah jauh dari viewport, bisa di-optimize
-                                img.style.willChange = 'auto';
-                            }
-                        });
+            // Intersection Observer untuk lazy loading yang lebih efisien
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.classList.add('loaded');
+                            observer.unobserve(img);
+                        }
                     });
-                }
+                }, {
+                    rootMargin: '50px 0px' // Mulai load 50px sebelum masuk viewport
+                });
+
+                // Observe semua gambar kecuali yang pertama
+                const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+                lazyImages.forEach(img => {
+                    imageObserver.observe(img);
+                });
             }
 
-            // Event listener untuk scroll optimization
-            let scrollTimeout;
-            window.addEventListener('scroll', () => {
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(optimizePerformance, 150);
-            }, { passive: true });
+            // Mulai progressive loading
+            loadImagesProgressively();
 
-            // Inisialisasi
-            initializeImageLoading();
-
-            // Modal functionality (unchanged)
+            // Modal functionality
             const modal = document.getElementById('myModal');
             const openModalBtn = document.getElementById('openModal');
             const closeModalBtn = document.getElementById('closeModal');
             const contactBtn = document.getElementById('contactButton');
 
-            openModalBtn.addEventListener('click', function() {
+            // Open modal
+            openModalBtn.addEventListener('click', function () {
                 modal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
             });
 
+            // Close modal
             function closeModal() {
                 modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                document.body.style.overflow = 'auto'; // Restore scrolling
             }
 
             closeModalBtn.addEventListener('click', closeModal);
 
-            modal.addEventListener('click', function(e) {
+            // Close modal when clicking outside
+            modal.addEventListener('click', function (e) {
                 if (e.target === modal) {
                     closeModal();
                 }
             });
 
-            contactBtn.addEventListener('click', function() {
-                const phoneNumber = '6281234567890';
+            // Contact button functionality
+            contactBtn.addEventListener('click', function () {
+                // Ganti nomor WhatsApp sesuai kebutuhan
+                const phoneNumber = '6281234567890'; // Contoh nomor WhatsApp
                 const message = encodeURIComponent('Halo! Saya tertarik dengan Es Teh Ibukota. Bisa info lebih lanjut?');
                 const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
                 window.open(whatsappUrl, '_blank');
                 closeModal();
             });
 
-            document.addEventListener('keydown', function(e) {
+            // Close modal with Escape key
+            document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape' && modal.style.display === 'block') {
                     closeModal();
                 }
             });
 
-            // Mencegah drag dan context menu
-            const allImages = document.querySelectorAll('img');
-            allImages.forEach(img => {
-                ['dragstart', 'contextmenu', 'selectstart'].forEach(event => {
-                    img.addEventListener(event, (e) => {
-                        e.preventDefault();
-                        return false;
-                    });
+            // JavaScript untuk mencegah drag dan context menu
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('dragstart', function (e) {
+                    e.preventDefault();
+                    return false;
                 });
-            });
 
-            // Global prevention
-            ['dragstart', 'contextmenu', 'selectstart'].forEach(event => {
-                document.addEventListener(event, (e) => {
+                img.addEventListener('contextmenu', function (e) {
+                    e.preventDefault();
+                    return false;
+                });
+
+                img.addEventListener('selectstart', function (e) {
                     e.preventDefault();
                     return false;
                 });
             });
 
-            // Performance monitoring (optional)
-            window.addEventListener('load', () => {
-                const totalLoadTime = performance.now() - performanceTracker.startTime;
-                console.log(`Total loading time: ${totalLoadTime.toFixed(2)}ms`);
-                
-                if (performanceTracker.loadTimes.length > 0) {
-                    const avgLoadTime = performanceTracker.loadTimes.reduce((a, b) => a + b, 0) / performanceTracker.loadTimes.length;
-                    console.log(`Average image load time: ${avgLoadTime.toFixed(2)}ms`);
-                }
+            // Mencegah drag secara global
+            document.addEventListener('dragstart', function (e) {
+                e.preventDefault();
+                return false;
+            });
+
+            // Mencegah context menu secara global
+            document.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+                return false;
+            });
+
+            // Mencegah selection secara global
+            document.addEventListener('selectstart', function (e) {
+                e.preventDefault();
+                return false;
             });
         });
     </script>
