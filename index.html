@@ -263,23 +263,23 @@
         <!-- Gambar pertama dengan prioritas tinggi (tidak lazy loading) -->
         <!-- Gambar pertama dengan prioritas tinggi (tidak lazy loading) -->
         <!-- Gambar pertama dengan prioritas tinggi (tidak lazy loading) -->
-<img id="img1" src="assets/1.jpg" alt="Gambar 1" fetchpriority="high">
+        <img id="img1" src="assets/1.jpg" alt="Gambar 1" fetchpriority="high">
 
-<!-- Gambar 2 - 15 dengan lazy loading -->
-<img id="img2" src="assets/2.jpg" alt="Gambar 2" loading="lazy">
-<img id="img3" src="assets/3.jpg" alt="Gambar 3" loading="lazy">
-<img id="img4" src="assets/4.jpg" alt="Gambar 4" loading="lazy">
-<img id="img5" src="assets/5.jpg" alt="Gambar 5" loading="lazy">
-<img id="img6" src="assets/6.gif" alt="Gambar 6" loading="lazy">
-<img id="img7" src="assets/7.jpg" alt="Gambar 7" loading="lazy">
-<img id="img8" src="assets/8.gif" alt="Gambar 8" loading="lazy">
-<img id="img9" src="assets/9.jpg" alt="Gambar 9" loading="lazy">
-<img id="img10" src="assets/10.jpg" alt="Gambar 10" loading="lazy">
-<img id="img11" src="assets/11.jpg" alt="Gambar 11" loading="lazy">
-<img id="img12" src="assets/12.jpg" alt="Gambar 12" loading="lazy">
-<img id="img13" src="assets/13.jpg" alt="Gambar 13" loading="lazy">
-<img id="img14" src="assets/14.jpg" alt="Gambar 14" loading="lazy">
-<img id="img15" src="assets/15.jpg" alt="Gambar 15" loading="lazy">
+        <!-- Gambar 2 - 15 dengan lazy loading -->
+        <img id="img2" src="assets/2.jpg" alt="Gambar 2" loading="lazy">
+        <img id="img3" src="assets/3.jpg" alt="Gambar 3" loading="lazy">
+        <img id="img4" src="assets/4.jpg" alt="Gambar 4" loading="lazy">
+        <img id="img5" src="assets/5.jpg" alt="Gambar 5" loading="lazy">
+        <img id="img6" src="assets/6.gif" alt="Gambar 6" loading="lazy">
+        <img id="img7" src="assets/7.jpg" alt="Gambar 7" loading="lazy">
+        <img id="img8" src="assets/8.gif" alt="Gambar 8" loading="lazy">
+        <img id="img9" src="assets/9.jpg" alt="Gambar 9" loading="lazy">
+        <img id="img10" src="assets/10.jpg" alt="Gambar 10" loading="lazy">
+        <img id="img11" src="assets/11.jpg" alt="Gambar 11" loading="lazy">
+        <img id="img12" src="assets/12.jpg" alt="Gambar 12" loading="lazy">
+        <img id="img13" src="assets/13.jpg" alt="Gambar 13" loading="lazy">
+        <img id="img14" src="assets/14.jpg" alt="Gambar 14" loading="lazy">
+        <img id="img15" src="assets/15.jpg" alt="Gambar 15" loading="lazy">
 
     </div>
 
@@ -412,13 +412,11 @@
 
             // Contact button functionality
             contactBtn.addEventListener('click', function () {
-                // Ganti nomor WhatsApp sesuai kebutuhan
-                const phoneNumber = '6281234567890'; // Contoh nomor WhatsApp
-                const message = encodeURIComponent('Halo! Saya tertarik dengan Es Teh Ibukota. Bisa info lebih lanjut?');
-                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-                window.open(whatsappUrl, '_blank');
+                const targetUrl = 'https://paketkemitraan.biz.id/public/estehibukota';
+                window.open(targetUrl, '_blank');
                 closeModal();
             });
+
 
             // Close modal with Escape key
             document.addEventListener('keydown', function (e) {
