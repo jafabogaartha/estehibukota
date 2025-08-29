@@ -4,78 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Image Web</title>
-
-    <!-- Preload gambar pertama untuk loading prioritas -->
-    <link rel="preload" as="image" href="assets/final/Landing Page Es Teh Ibukota CMYK 1_4_11zon.jpg">
-
+    <title>Mobile Image Web - Es Teh Ibukota</title>
+    <!-- Google Fonts: Poppins untuk tampilan yang lebih modern -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* CSS Variables for easy theming */
+        :root {
+            --primary-color: #e74c3c;
+            --primary-dark: #c0392b;
+            --secondary-dark: #a93226;
+            --text-light: #fefefe;
+            --text-dark: #333;
+            --text-medium: #666;
+            --bg-light: #fff;
+            --bg-dark: #000;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(231, 76, 60, 0.4);
+            --shadow-strong: rgba(231, 76, 60, 0.6);
+            --border-radius-small: 10px;
+            --border-radius-medium: 15px;
+            --border-radius-large: 20px;
+        }
+
+        /* Global Reset & Basic Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* Menghilangkan highlight saat disentuh di perangkat mobile */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: #fff;
+            background: var(--bg-light);
             overflow-x: hidden;
-            /* Mencegah selection dan drag pada seluruh halaman */
+            font-family: 'Poppins', Arial, sans-serif;
+            color: var(--text-dark);
+            /* Mencegah selection pada seluruh halaman */
             user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
-        }
-
-        .image-stack {
-            width: 100%;
-            margin: 0 auto;
-            background: #000;
-        }
-
-        .image-stack img {
-            width: 100%;
-            height: auto;
-            display: block;
-            /* Mencegah drag pada gambar */
-            -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
-            user-drag: none;
-            /* Mencegah selection pada gambar */
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            /* Mencegah context menu */
-            pointer-events: none;
-        }
-
-        /* Loading placeholder untuk gambar yang belum dimuat */
-        .image-placeholder {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            min-height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-family: Arial, sans-serif;
-        }
-
-        @keyframes loading {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
-            }
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         /* Mencegah drag and drop secara global */
@@ -87,6 +58,43 @@
             user-drag: none;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Main Container for all images and slideshows */
+        .image-stack-wrapper {
+            width: 100%;
+            margin: 0 auto;
+            max-width: 450px;
+            /* Batasi lebar maksimal untuk desain mobile-first */
+            background: var(--bg-light); /* Diubah menjadi putih */
+            box-shadow: 0 0 20px var(--shadow-light);
+        }
+
+        /* Default style for all images inside the wrapper */
+        .image-stack-wrapper img {
+            width: 100%;
+            height: auto; /* Penting: Tinggi menyesuaikan lebar dan rasio aspek asli */
+            display: block;
+            /* Mencegah drag, selection, dan context menu pada gambar */
+            -webkit-user-drag: none;
+            user-drag: none;
+            -webkit-user-select: none;
+            user-select: none;
+            pointer-events: none;
+            /* Awalnya opacity 0 untuk transisi loading */
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            /* Latar belakang placeholder, tanpa min-height yang memaksa ukuran */
+            background-color: #f0f0f0;
+        }
+
+        .image-stack-wrapper img.loaded {
+            opacity: 1;
+            background-color: transparent;
+        }
+
         /* Floating Button Styles */
         .floating-button {
             position: fixed;
@@ -95,15 +103,15 @@
             transform: translateX(-50%);
             width: calc(100% - 40px);
             max-width: 350px;
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: var(--text-light);
             border: none;
-            border-radius: 20px;
+            border-radius: var(--border-radius-large);
             padding: 12px 20px;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+            box-shadow: 0 8px 25px var(--shadow-medium);
             transition: all 0.3s ease;
             z-index: 1000;
             backdrop-filter: blur(10px);
@@ -111,22 +119,29 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            height: 48px;
+            height: 52px;
+            text-decoration: none;
         }
 
         .floating-button:hover {
             transform: translateX(-50%) translateY(-3px);
-            box-shadow: 0 12px 35px rgba(231, 76, 60, 0.6);
-            background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+            box-shadow: 0 12px 35px var(--shadow-strong);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
         }
 
         .floating-button:active {
-            transform: translateX(-50%) scale(0.95);
+            transform: translateX(-50%) scale(0.98);
+            box-shadow: 0 4px 15px var(--shadow-medium);
+        }
+
+        .floating-button:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 3px;
         }
 
         .whatsapp-icon {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             fill: currentColor;
         }
 
@@ -140,69 +155,84 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
         }
 
         .modal-content {
-            background-color: #fefefe;
-            margin: 50% auto;
+            background-color: var(--bg-light);
             padding: 30px;
-            border-radius: 20px;
+            border-radius: var(--border-radius-large);
             width: calc(100% - 40px);
             max-width: 400px;
             position: relative;
-            animation: slideUp 0.3s ease;
-            transform: translateY(-50%);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .modal.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
         }
 
-        .close {
+        .close-button {
             position: absolute;
-            right: 20px;
-            top: 15px;
+            right: 15px;
+            top: 10px;
             color: #aaa;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
             cursor: pointer;
             transition: color 0.3s ease;
+            background: none;
+            border: none;
+            padding: 5px;
+            line-height: 1;
         }
 
-        .close:hover,
-        .close:focus {
-            color: #000;
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--text-dark);
+            outline: none;
+        }
+
+        .close-button:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 3px;
+            border-radius: 5px;
         }
 
         .modal h2 {
-            color: #333;
+            color: var(--text-dark);
             margin-bottom: 15px;
-            font-size: 24px;
+            font-size: 26px;
+            text-align: center;
         }
 
         .modal p {
-            color: #666;
-            line-height: 1.6;
+            color: var(--text-medium);
+            line-height: 1.7;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         .modal-button {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: var(--text-light);
             border: none;
             padding: 12px 24px;
-            border-radius: 15px;
+            border-radius: var(--border-radius-medium);
             cursor: pointer;
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 600;
             transition: all 0.3s ease;
             width: 100%;
@@ -210,156 +240,419 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            height: 50px;
+            text-decoration: none;
         }
 
         .modal-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
-            background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+        }
+
+        .modal-button:active {
+            transform: translateY(0px) scale(0.98);
+        }
+
+        .modal-button:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 3px;
         }
 
         /* Media query untuk desktop */
         @media (min-width: 768px) {
             body {
-                background: #fff;
                 display: flex;
                 justify-content: center;
-                align-items: flex-start;
+                align-items: center;
                 min-height: 100vh;
+                background-color: #f5f7fa;
             }
 
-            .image-stack {
-                width: 390px;
+            .image-stack-wrapper {
                 margin: 0;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 0 30px var(--shadow-light);
             }
 
             .floating-button {
                 width: 350px;
                 max-width: 350px;
+                bottom: 30px;
             }
 
             .modal-content {
-                margin: 15% auto;
-                transform: translateY(0);
+                margin: auto;
             }
         }
 
-        /* Hide images initially for progressive loading */
-        .image-stack img {
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
+        /* Slideshow Container Styles */
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            background-color: transparent; /* Diubah menjadi transparan */
         }
 
-        .image-stack img.loaded {
+        .slideshow-container .mySlides {
+            display: none;
+            width: 100%;
+            animation: fadeEffect 1s;
+        }
+
+        .slideshow-container .mySlides img {
+            width: 100%;
+            height: auto; /* Penting: Tinggi menyesuaikan lebar dan rasio aspek asli */
+            display: block;
             opacity: 1;
+            background-color: #f0f0f0; /* Latar belakang placeholder */
+        }
+
+        @keyframes fadeEffect {
+            from {
+                opacity: 0.4;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Previous & Next buttons */
+        .slideshow-container .prev,
+        .slideshow-container .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            margin-top: -20px;
+            color: var(--text-light);
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.3s ease;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border: none;
+            opacity: 0.8;
+        }
+
+        .slideshow-container .prev {
+            left: 10px;
+        }
+
+        .slideshow-container .next {
+            right: 10px;
+        }
+
+        .slideshow-container .prev:hover,
+        .slideshow-container .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            opacity: 1;
+            transform: translateY(-20px) scale(1.1);
+        }
+
+        .slideshow-container .prev:active,
+        .slideshow-container .next:active {
+            transform: translateY(-20px) scale(0.95);
+        }
+
+        .slideshow-container .prev:focus-visible,
+        .slideshow-container .next:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* SVG arrows for better appearance */
+        .slideshow-arrow {
+            fill: currentColor;
+            width: 1em;
+            height: 1em;
+        }
+
+        /* Dots/bullets/indicators */
+        .dot-container {
+            text-align: center;
+            padding: 15px 0;
+            background: transparent; /* Diubah menjadi transparan */
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 12px;
+            width: 12px;
+            background-color: #777;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .dot.active,
+        .dot:hover {
+            background-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .dot:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+            transform: scale(1.1);
         }
     </style>
 </head>
 
 <body>
 
-    <div class="image-stack">
-        <!-- Gambar pertama dengan prioritas tinggi (tidak lazy loading) -->
-        <img id="img1" src="assets/1.jpg" alt="Gambar 1" fetchpriority="high">
+    <div class="image-stack-wrapper">
+        <!-- Gambar statis pertama dengan prioritas tinggi -->
+        <img id="img1" src="assets/1.jpg" alt="Gambar Pembuka Landing Page" fetchpriority="high">
 
-        <!-- Gambar 2 - 16 dengan lazy loading -->
-        <img id="img2" src="assets/2.gif" alt="Gambar 2" loading="lazy">
-        <img id="img3" src="assets/3.jpg" alt="Gambar 3" loading="lazy">
-        <img id="img4" src="assets/4.jpg" alt="Gambar 4" loading="lazy">
-        <img id="img5" src="assets/5.jpg" alt="Gambar 5" loading="lazy">
-        <img id="img6" src="assets/6.jpg" alt="Gambar 6" loading="lazy">
-        <img id="img7" src="assets/7.gif" alt="Gambar 7" loading="lazy">
-        <img id="img8" src="assets/8.jpg" alt="Gambar 8" loading="lazy">
-        <img id="img9" src="assets/9.gif" alt="Gambar 9" loading="lazy">
-        <img id="img10" src="assets/10.jpg" alt="Gambar 10" loading="lazy">
-        <img id="img11" src="assets/11.jpg" alt="Gambar 11" loading="lazy">
-        <img id="img12" src="assets/12.jpg" alt="Gambar 12" loading="lazy">
-        <img id="img13" src="assets/13.jpg" alt="Gambar 13" loading="lazy">
-        <img id="img14" src="assets/14.jpg" alt="Gambar 14" loading="lazy">
-        <img id="img15" src="assets/15.jpg" alt="Gambar 15" loading="lazy">
-        <img id="img16" src="assets/16.jpg" alt="Gambar 16" loading="lazy">
+        <!-- Slideshow Paket Utama (slidefoto) -->
+        <div class="slideshow-container" id="slideshow1">
+            <div class="mySlides fade">
+                <img src="assets/slidefoto/FOTO 1.jpg" alt="Penawaran Spesial 1">
+            </div>
+            <div class="mySlides fade">
+                <img src="assets/slidefoto/FOTO 2.jpg" alt="Penawaran Spesial 2">
+            </div>
+            <div class="mySlides fade">
+                <img src="assets/slidefoto/FOTO 3.jpg" alt="Penawaran Spesial 3">
+            </div>
+
+            <!-- Tombol Navigasi Slideshow 1 -->
+            <button class="prev" aria-label="Slide sebelumnya" onclick="plusSlides(1, -1)">
+                <svg class="slideshow-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+            <button class="next" aria-label="Slide berikutnya" onclick="plusSlides(1, 1)">
+                <svg class="slideshow-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <!-- Dot Navigation Slideshow 1 -->
+            <div class="dot-container" id="dots1">
+                <span class="dot" aria-label="Pergi ke slide 1" onclick="currentSlide(1, 1)"></span>
+                <span class="dot" aria-label="Pergi ke slide 2" onclick="currentSlide(1, 2)"></span>
+                <span class="dot" aria-label="Pergi ke slide 3" onclick="currentSlide(1, 3)"></span>
+            </div>
+        </div>
+
+        <!-- Gambar statis detail lainnya -->
+        <img id="img3" src="assets/3.jpg" alt="Gambar Detail Produk 1" loading="lazy">
+        <img id="img4" src="assets/4.jpg" alt="Gambar Detail Produk 2" loading="lazy">
+        <img id="img5" src="assets/5.jpg" alt="Gambar Detail Produk 3" loading="lazy">
+        <img id="img6" src="assets/6.jpg" alt="Gambar Detail Produk 4" loading="lazy">
+
+        <!-- Slideshow Paket Kemitraan -->
+        <div class="slideshow-container" id="slideshow2">
+            <div class="mySlides fade">
+                <img src="assets/slide/01. Super Hemat.jpg" alt="Paket Super Hemat">
+            </div>
+            <div class="mySlides fade">
+                <img src="assets/slide/02. Hemat.jpg" alt="Paket Hemat">
+            </div>
+            <div class="mySlides fade">
+                <img src="assets/slide/03. Portable.jpg" alt="Paket Portable">
+            </div>
+            <div class="mySlides fade">
+                <img src="assets/slide/04. Portable Koper.jpg" alt="Paket Portable Koper">
+            </div>
+            <div class="mySlides fade">
+                <img src="assets/slide/05. Reguler.jpg" alt="Paket Reguler">
+            </div>
+            <div class="mySlides fade">
+                <img src="assets/slide/06. Platinum.jpg" alt="Paket Platinum">
+            </div>
+            <div class="mySlides fade">
+                <img src="assets/slide/07. Kontainer.jpg" alt="Paket Kontainer">
+            </div>
+
+            <!-- Tombol Navigasi Slideshow 2 -->
+            <button class="prev" aria-label="Paket sebelumnya" onclick="plusSlides(2, -1)">
+                <svg class="slideshow-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+            <button class="next" aria-label="Paket berikutnya" onclick="plusSlides(2, 1)">
+                <svg class="slideshow-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <!-- Dot Navigation Slideshow 2 -->
+            <div class="dot-container" id="dots2">
+                <span class="dot" aria-label="Pergi ke paket 1" onclick="currentSlide(2, 1)"></span>
+                <span class="dot" aria-label="Pergi ke paket 2" onclick="currentSlide(2, 2)"></span>
+                <span class="dot" aria-label="Pergi ke paket 3" onclick="currentSlide(2, 3)"></span>
+                <span class="dot" aria-label="Pergi ke paket 4" onclick="currentSlide(2, 4)"></span>
+                <span class="dot" aria-label="Pergi ke paket 5" onclick="currentSlide(2, 5)"></span>
+                <span class="dot" aria-label="Pergi ke paket 6" onclick="currentSlide(2, 6)"></span>
+                <span class="dot" aria-label="Pergi ke paket 7" onclick="currentSlide(2, 7)"></span>
+            </div>
+        </div>
+
+        <!-- Gambar statis penutup lainnya -->
+        <img id="img8" src="assets/8.jpg" alt="Gambar Penutup Informasi 1" loading="lazy">
+        <img id="img10" src="assets/10.jpg" alt="Gambar Penutup Informasi 2" loading="lazy">
+        <img id="img11" src="assets/11.jpg" alt="Gambar Penutup Informasi 3" loading="lazy">
+        <img id="img12" src="assets/12.jpg" alt="Gambar Penutup Informasi 4" loading="lazy">
+        <img id="img13" src="assets/13.jpg" alt="Gambar Penutup Informasi 5" loading="lazy">
+        <img id="img14" src="assets/14.jpg" alt="Gambar Penutup Informasi 6" loading="lazy">
+        <img id="img15" src="assets/15.jpg" alt="Gambar Penutup Informasi 7" loading="lazy">
+        <img id="img16" src="assets/16.jpg" alt="Gambar Penutup Informasi 8" loading="lazy">
     </div>
 
-
-<!-- Floating Button -->
-<button class="floating-button" id="openModal" onclick="window.location.href='https://paketkemitraan.biz.id/p/esteh-ibukota'">
-    <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path
-            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.484 3.488" />
-    </svg>
-    Pesan Sekarang
-</button>
-
+    <!-- Floating Button -->
+    <button class="floating-button" id="openModal" aria-label="Pesan sekarang melalui WhatsApp">
+        <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.484 3.488" />
+        </svg>
+        Pesan Sekarang
+    </button>
 
     <!-- Modal Pop-up -->
-    <div id="myModal" class="modal">
+    <div id="myModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+        aria-describedby="modalDescription">
         <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h2>🍹 Es Teh Ibukota</h2>
-            <p>Nikmati kesegaran Es Teh Ibukota yang legendaris! Terbuat dari teh pilihan dengan rasa yang tak
-                terlupakan.</p>
+            <button class="close-button" id="closeModal" aria-label="Tutup pop-up">&times;</button>
+            <h2 id="modalTitle">🍹 Es Teh Ibukota</h2>
+            <p id="modalDescription">Nikmati kesegaran Es Teh Ibukota yang legendaris! Terbuat dari teh pilihan dengan
+                rasa yang tak
+                terlupakan. Untuk informasi lebih lanjut atau pemesanan, hubungi kami.</p>
             <p><strong>Hubungi kami untuk pemesanan:</strong></p>
-            <button class="modal-button" id="contactButton">
+            <a href="https://paketkemitraan.biz.id/public/estehibukota" target="_blank" rel="noopener noreferrer"
+                class="modal-button" id="contactButton" aria-label="Hubungi kami via WhatsApp">
                 <svg class="whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.484 3.488" />
                 </svg>
                 Hubungi WhatsApp
-            </button>
+            </a>
         </div>
     </div>
 
     <script>
-        // Progressive image loading dengan prioritas
         document.addEventListener('DOMContentLoaded', function () {
+            // --- Slideshow Logic ---
+            const slideshows = [
+                { id: 'slideshow1', index: 1, intervalId: null, autoSlideDuration: 5000 },
+                { id: 'slideshow2', index: 1, intervalId: null, autoSlideDuration: 5000 }
+            ];
 
-            // Fungsi untuk handle loading gambar dengan prioritas
-            function loadImagesProgressively() {
-                const images = document.querySelectorAll('img');
+            function showSlides(slideshowId, n) {
+                const slideshowContainer = document.getElementById(slideshowId);
+                if (!slideshowContainer) return;
 
-                // Load gambar pertama dengan prioritas tinggi
-                const firstImage = document.getElementById('img1');
-                if (firstImage) {
-                    firstImage.onload = function () {
-                        this.classList.add('loaded');
-                        // Setelah gambar pertama load, preload gambar kedua
-                        preloadNextImage('img2');
-                    };
+                const slides = slideshowContainer.getElementsByClassName("mySlides");
+                const dotsContainer = slideshowContainer.querySelector('.dot-container');
+                const dots = dotsContainer ? dotsContainer.getElementsByClassName("dot") : [];
 
-                    // Jika gambar pertama sudah cached, langsung tampilkan
-                    if (firstImage.complete) {
-                        firstImage.classList.add('loaded');
-                        preloadNextImage('img2');
-                    }
+                let currentSlideshow = slideshows.find(s => s.id === slideshowId);
+                if (!currentSlideshow) return;
+
+                if (n > slides.length) {
+                    currentSlideshow.index = 1;
+                }
+                if (n < 1) {
+                    currentSlideshow.index = slides.length;
                 }
 
-                // Setup loading untuk semua gambar
-                images.forEach((img, index) => {
-                    img.onload = function () {
-                        this.classList.add('loaded');
-                    };
+                for (let i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                for (let i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
 
-                    // Jika gambar sudah cached
-                    if (img.complete) {
-                        img.classList.add('loaded');
-                    }
-                });
-            }
-
-            // Fungsi untuk preload gambar berikutnya
-            function preloadNextImage(imgId) {
-                const img = document.getElementById(imgId);
-                if (img && !img.classList.contains('loaded')) {
-                    const preloader = new Image();
-                    preloader.onload = function () {
-                        img.classList.add('loaded');
-                    };
-                    preloader.src = img.src;
+                slides[currentSlideshow.index - 1].style.display = "block";
+                if (dots.length > 0) {
+                    dots[currentSlideshow.index - 1].className += " active";
                 }
             }
 
-            // Intersection Observer untuk lazy loading yang lebih efisien
+            function startAutoSlide(slideshowId) {
+                let currentSlideshow = slideshows.find(s => s.id === slideshowId);
+                if (!currentSlideshow || currentSlideshow.intervalId) return; // Mencegah multiple intervals
+
+                currentSlideshow.intervalId = setInterval(() => {
+                    showSlides(slideshowId, currentSlideshow.index += 1);
+                }, currentSlideshow.autoSlideDuration);
+            }
+
+            function stopAutoSlide(slideshowId) {
+                let currentSlideshow = slideshows.find(s => s.id === slideshowId);
+                if (currentSlideshow && currentSlideshow.intervalId) {
+                    clearInterval(currentSlideshow.intervalId);
+                    currentSlideshow.intervalId = null;
+                }
+            }
+
+            window.plusSlides = function (slideshowNum, n) {
+                const slideshowId = 'slideshow' + slideshowNum;
+                let currentSlideshow = slideshows.find(s => s.id === slideshowId);
+                if (currentSlideshow) {
+                    stopAutoSlide(slideshowId);
+                    showSlides(slideshowId, currentSlideshow.index += n);
+                    setTimeout(() => startAutoSlide(slideshowId), currentSlideshow.autoSlideDuration);
+                }
+            }
+
+            window.currentSlide = function (slideshowNum, n) {
+                const slideshowId = 'slideshow' + slideshowNum;
+                let currentSlideshow = slideshows.find(s => s.id === slideshowId);
+                if (currentSlideshow) {
+                    stopAutoSlide(slideshowId);
+                    showSlides(slideshowId, currentSlideshow.index = n);
+                    setTimeout(() => startAutoSlide(slideshowId), currentSlideshow.autoSlideDuration);
+                }
+            }
+
+            slideshows.forEach(s => {
+                showSlides(s.id, s.index);
+                startAutoSlide(s.id);
+            });
+
+            slideshows.forEach(s => {
+                const container = document.getElementById(s.id);
+                if (container) {
+                    container.addEventListener('mouseenter', () => stopAutoSlide(s.id));
+                    container.addEventListener('mouseleave', () => startAutoSlide(s.id));
+                    container.addEventListener('touchstart', (e) => stopAutoSlide(s.id), { passive: true });
+                    container.addEventListener('touchend', (e) => startAutoSlide(s.id), { passive: true });
+                }
+            });
+
+
+            // --- Progressive/Lazy Image Loading ---
+            const highPriorityImage = document.getElementById('img1');
+            if (highPriorityImage) {
+                highPriorityImage.onload = function () {
+                    this.classList.add('loaded');
+                };
+                if (highPriorityImage.complete) {
+                    highPriorityImage.classList.add('loaded');
+                }
+            }
+
             if ('IntersectionObserver' in window) {
                 const imageObserver = new IntersectionObserver((entries, observer) => {
                     entries.forEach(entry => {
@@ -370,100 +663,74 @@
                         }
                     });
                 }, {
-                    rootMargin: '50px 0px' // Mulai load 50px sebelum masuk viewport
+                    rootMargin: '100px 0px'
                 });
 
-                // Observe semua gambar kecuali yang pertama
-                const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+                const lazyImages = document.querySelectorAll('img[loading="lazy"], .mySlides img');
                 lazyImages.forEach(img => {
-                    imageObserver.observe(img);
+                    if (!img.classList.contains('loaded')) {
+                        imageObserver.observe(img);
+                    }
+                });
+            } else {
+                const lazyImages = document.querySelectorAll('img[loading="lazy"], .mySlides img');
+                lazyImages.forEach(img => {
+                    img.classList.add('loaded');
                 });
             }
 
-            // Mulai progressive loading
-            loadImagesProgressively();
-
-            // Modal functionality
+            // --- Modal Functionality ---
             const modal = document.getElementById('myModal');
             const openModalBtn = document.getElementById('openModal');
             const closeModalBtn = document.getElementById('closeModal');
             const contactBtn = document.getElementById('contactButton');
 
-            // Open modal
-            openModalBtn.addEventListener('click', function () {
-                modal.style.display = 'block';
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
-            });
-
-            // Close modal
-            function closeModal() {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto'; // Restore scrolling
+            function openModal() {
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('show'), 10);
+                document.body.style.overflow = 'hidden';
+                closeModalBtn.focus();
             }
 
+            function closeModal() {
+                modal.classList.remove('show');
+                modal.addEventListener('transitionend', function handler() {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    modal.removeEventListener('transitionend', handler);
+                });
+                openModalBtn.focus();
+            }
+
+            openModalBtn.addEventListener('click', openModal);
             closeModalBtn.addEventListener('click', closeModal);
 
-            // Close modal when clicking outside
             modal.addEventListener('click', function (e) {
                 if (e.target === modal) {
                     closeModal();
                 }
             });
 
-            // Contact button functionality
-            contactBtn.addEventListener('click', function () {
-                const targetUrl = 'https://paketkemitraan.biz.id/public/estehibukota';
-                window.open(targetUrl, '_blank');
-                closeModal();
-            });
-
-
-            // Close modal with Escape key
             document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && modal.style.display === 'block') {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
                     closeModal();
                 }
             });
 
-            // JavaScript untuk mencegah drag dan context menu
-            const images = document.querySelectorAll('img');
-            images.forEach(img => {
-                img.addEventListener('dragstart', function (e) {
-                    e.preventDefault();
-                    return false;
-                });
-
-                img.addEventListener('contextmenu', function (e) {
-                    e.preventDefault();
-                    return false;
-                });
-
-                img.addEventListener('selectstart', function (e) {
-                    e.preventDefault();
-                    return false;
-                });
-            });
-
-            // Mencegah drag secara global
+            // --- Global Interaction Prevention (Drag, Context Menu, Selection) ---
             document.addEventListener('dragstart', function (e) {
                 e.preventDefault();
-                return false;
             });
 
-            // Mencegah context menu secara global
             document.addEventListener('contextmenu', function (e) {
                 e.preventDefault();
-                return false;
             });
 
-            // Mencegah selection secara global
             document.addEventListener('selectstart', function (e) {
                 e.preventDefault();
-                return false;
             });
         });
     </script>
-
 </body>
 
 </html>
